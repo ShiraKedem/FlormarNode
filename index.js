@@ -4,18 +4,21 @@ import { config } from "dotenv";
 import { connectToDB } from "./db/connectToDB.js";
 import cors from "cors";
 import { errorHandling } from "./middlwares/erroreHndling.js";
-// import userRouter from "./routes/user.js"
+
+import {userRouter}  from "./routes/user.js";
+import orderRouter from "./routes/orders.js"
+
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/product", router);
 connectToDB();
 config();
-// app.use("/api/user",userRouter)
+app.use("/api/product", router);
+app.use("/api/user",userRouter)
+app.use("/api/order",orderRouter)
 app.use(errorHandling )
-
 let port = process.env.PORT || 3500;
 app.listen(port, () => {
   console.log(`app is listening on port ${port}`);

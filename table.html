@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <title> </title>
+  </head>
+  <style>
+    body {
+      font-family: sans-serif;
+      font-size: 16px;
+      color: black;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 3px;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    .table-style {
+      margin-top: 20px;
+    }
+  </style>
+  <body>
+    <h1>products</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>תאור</th>
+          <th>CRUD</th>
+          <th>מה מחזיר</th>
+          <th>body</th>
+          <th>פרמטרים</th>
+          <th>כתובת</th>
+          <th>method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>שליפת כל המוצרים</td>
+          <td>Read</td>
+          <td>[]Products, name, id</td>
+          <td></td>
+          <td></td>
+          <td>api/products/</td>
+          <td>get</td>
+        </tr>
+        <tr>
+          <td>שליפת מוצר לפי קוד</td>
+          <td>Read</td>
+          <td>name, id</td>
+          <td></td>
+          <td>קוד - id</td>
+          <td>api/products/</td>
+          <td>get</td>
+        </tr>
+        <tr>
+          <td>מוסיף מוצר חדש למסך</td>
+          <td>Create</td>
+          <td>code,providercode, name,Discribe DateOfProduction, ImagePath</td>
+          <td>code,providercode, name,Discribe DateOfProduction, ImagePath</td>
+          <td></td>
+          <td>api/products/</td>
+          <td>post</td>
+        </tr>
+        <tr>
+          <td>מעדכן מוצר קיים</td>
+          <td>Update</td>
+          <td>
+            code,providercode, name, _id,Discribe DateOfProduction, ImagePath
+          </td>
+          <td>
+            code,providercode, name, ,Discribe DateOfProduction, ImagePath
+          </td>
+          <td>קוד - id</td>
+          <td>api/products/</td>
+          <td>put</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>users</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>תאור</th>
+          <th>CRUD</th>
+          <th>מה מחזיר</th>
+          <th>body</th>
+          <th>פרמטרים</th>
+          <th>כתובת</th>
+          <th>method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>שליפת כל המשתמשים</td>
+          <td>Read</td>
+          <td>[]Users, username, password, email, role, _id</td>
+          <td></td>
+          <td></td>
+          <td>api/user/</td>
+          <td>get</td>
+        </tr>
+        <tr>
+          <td>שליפת משתמש לפי מייל</td>
+          <td>Read</td>
+          <td>_id ,username, password, email, role</td>
+          <td></td>
+          <td>מייל</td>
+          <td>api/user/login</td>
+          <td>post</td>
+        </tr>
+        <tr>
+          <td>מוסיף משתמש חדש למסד הנתונים</td>
+          <td>Create</td>
+          <td>_id, username, password, email, role</td>
+          <td>username, password, email</td>
+          <td></td>
+          <td>api/user/</td>
+          <td>post</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>order</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>תאור</th>
+          <th>CRUD</th>
+          <th>מה מחזיר</th>
+          <th>body</th>
+          <th>פרמטרים</th>
+          <th>כתובת</th>
+          <th>method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>שליפת כל ההזמנות</td>
+          <td>Read</td>
+          <td>[]Orders, orderDate, status, orderedProducts, userId, _id</td>
+          <td></td>
+          <td></td>
+          <td>api/orders/</td>
+          <td>get</td>
+        </tr>
+        <tr>
+          <td>שליפת הזמנה לפי קוד</td>
+          <td>Read</td>
+          <td>Order, orderDate, status, orderedProducts, userId, _id</td>
+          <td></td>
+          <td>קוד משתמש</td>
+          <td>api/orders/</td>
+          <td>get</td>
+        </tr>
+        <tr>
+          <td>הוספת הזמנה חדשה</td>
+          <td>Create</td>
+          <td>Order, orderDate, status, orderedProducts, userId, _id</td>
+          <td>orderDate, status, orderedProducts, userId</td>
+          <td></td>
+          <td>api/orders/</td>
+          <td>post</td>
+        </tr>
+        <tr>
+          <td>עדכון הזמנה קיימת</td>
+          <td>Update</td>
+          <td>Order, orderDate, status, orderedProducts, userId, _id</td>
+          <td>orderDate, status, orderedProducts, userId</td>
+          <td>קוד</td>
+          <td>api/orders/</td>
+          <td>put</td>
+        </tr>
+        <tr>
+          <td>מחיקת הזמנה</td>
+          <td>Delete</td>
+          <td></td>
+          <td></td>
+          <td>קוד משתמש</td>
+          <td>api/orders/</td>
+          <td>delete</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

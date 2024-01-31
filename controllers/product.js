@@ -1,24 +1,28 @@
 import mongoose from "mongoose";
-import { productModel } from "../models/products.js";
+import { productModel,productValidatore } from "../models/products.js";
 
 export const getAllProducts = async (req, res, next) => {
-  let txt = req.query.txt || undefined;
-  let page = req.query.page || 1;
-  let perPage = req.query.perPage || 30;
-  try {
-    let AllProducts = await productModel
-      .find({ $or: [{ name: txt }, { code: txt }] })
-      .skip((page - 1) * perPage)
-      .limit(perPage);
-    res.json(AllProducts);
-  } catch (err) {
-    next({
-      status: 400,
-      type: "invalid operation",
-      message: "sorry cannot get products",
-    });
+    let txt = req.query.txt || undefined;
+   let page = req.query.page || 1;
+   let perPage = req.query.perPage || 30;
+   try {
+      let AllProducts = await productModel
+   .find({ $or: [{ name: txt }, { code: txt }] })
+   .skip((page - 1) * perPage)
+  .limit(perPage);
+   if (!txt) {
+   AllProducts = await productModel.find();
+   }
+   res.json(AllProducts);
+   } catch (err) {
+  next({
+   status: 400,
+   type: "invalid operation",
+   message: "sorry cannot get products",
+ });
   }
-};
+  };
+  
 
 export const getPtoductById = async (req, res, next) => {
   let { id } = req.params;
@@ -63,11 +67,13 @@ export const deleteProduct = async (req, res, next) => {
 };
 export const addProduct = async (req, res, next) => {
   let { code, name, ProviderCode } = req.body;
+  const result = await productValidatore(req.body);
 
-  if (!name || !code) {
-    const err = new Error("חסרים פרטים בגוף הבקשה: שם או קוד מוצר");
-    err.status = 400;
-    return next(err);
+  if (result.error) {
+    return res.status(400).json({
+      type: "invalid data",
+      message: result.error.details[0].message,
+    });
   }
 
   try {
