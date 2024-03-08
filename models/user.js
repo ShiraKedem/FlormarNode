@@ -16,7 +16,7 @@ export const userValidatore = (_user) => {
   const userSchema = Joi.object({
     datSign: Joi.date().default(Date.now()),
     userName: Joi.string().required().min(2),
-    password: Joi.string().required().min(5),
+    password: Joi.string().required().min(6).max(10),
     email: Joi.string().email().required(),
   });
 

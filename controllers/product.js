@@ -2,27 +2,33 @@ import mongoose from "mongoose";
 import { productModel,productValidatore } from "../models/products.js";
 
 export const getAllProducts = async (req, res, next) => {
+  try {
     let txt = req.query.txt || undefined;
-   let page = req.query.page || 1;
-   let perPage = req.query.perPage || 30;
-   try {
-      let AllProducts = await productModel
-   .find({ $or: [{ name: txt }, { code: txt }] })
-   .skip((page - 1) * perPage)
-  .limit(perPage);
-   if (!txt) {
-   AllProducts = await productModel.find();
-   }
-   res.json(AllProducts);
-   } catch (err) {
-  next({
-   status: 400,
-   type: "invalid operation",
-   message: "sorry cannot get products",
- });
-  }
-  };
+    let page = req.query.page || 1;
+    let perPage = req.query.perPage || 5;
+
+    let AllProducts;
+
+    if (!txt) {
+      AllProducts = await productModel.find().skip((page - 1) * perPage)
+      .limit(perPage);
+    } else {
+      AllProducts = await productModel
+        .find({ $or: [{ name: txt }, { code: txt }] })
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+    }
   
+    res.json(AllProducts);
+  } catch (err) {
+    next({
+      status: 400,
+      type: "invalid operation",
+      message: "sorry cannot get products",
+    });
+  }
+};
+
 
 export const getPtoductById = async (req, res, next) => {
   let { id } = req.params;
@@ -66,7 +72,7 @@ export const deleteProduct = async (req, res, next) => {
   }
 };
 export const addProduct = async (req, res, next) => {
-  let { code, name, ProviderCode } = req.body;
+  let {  name, Providercode ,price} = req.body;
   const result = await productValidatore(req.body);
 
   if (result.error) {
@@ -76,6 +82,7 @@ export const addProduct = async (req, res, next) => {
     });
   }
 
+  // const { image } = req.files;
   try {
     let sameProduct = await productModel.findOne({ name: name });
     if (sameProduct) {
@@ -86,8 +93,12 @@ export const addProduct = async (req, res, next) => {
 
     let newProduct = new productModel({
       name,
-      code,
-      ProviderCode,
+      price,
+      Providercode,
+      // image: {
+      //   data: fs.readFileSync(image.path),
+      //   contentType: image.mimetype,
+      // },
     });
 
     await newProduct.save();

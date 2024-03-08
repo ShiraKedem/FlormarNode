@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export const connectToDB = async () => {
     try {
-        let connect = await mongoose.connect(process.env.PORT||"mongodb://0.0.0.0:27017/flormarDB")
+        let connect = await mongoose.connect(process.env.PORT||"mongodb+srv://shirakedem4244:WeVfLXykcKGhyttK@progectnode.j6l7wqm.mongodb.net/")
         console.log("mongo db connected")
     }
     catch (err) {

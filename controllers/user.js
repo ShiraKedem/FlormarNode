@@ -6,7 +6,6 @@ export const addUser = async (req, res, next) => {
   let { email, password, userName } = req.body;
 
   const result = await userValidatore(req.body);
-
   if (result.error) {
     return res.status(400).json({
       type: "invalid data",
@@ -46,25 +45,24 @@ export const addUser = async (req, res, next) => {
   }
 };
 export const login = async (req, res, next) => {
-  let { password, email } = req.body;
-  if (!email || !password) {
-    const err = new Error("please send email user name and password");
-    err.status = 404;
-    throw err;
-  }
   try {
+    let { password, email } = req.body;
+    if (!email || !password) {
+      throw new Error("Please send email, user name, and password");
+    }
+
     const user = await userModel.findOne({ email: email });
+
     if (!user) {
-      const err = new Error("one or more details are invalid");
-      err.status = 404;
-      throw err;
+      throw new Error("User does not exist");
     }
+
     if (!(await bcrypt.compare(password, user.password))) {
-      const err = new Error("one or more details are invalid");
-      err.status = 404;
-      throw err;
+      throw new Error("One or more details are invalid");
     }
+
     let token = generateToken(user._id, user.role, user.userName);
+    
     return res.json({
       _id: user._id,
       userName: user.userName,
@@ -73,9 +71,11 @@ export const login = async (req, res, next) => {
       role: user.role,
     });
   } catch (err) {
+    console.error("Login error:", err); // Log the error
     next(err);
   }
 };
+
 export const getAllUsers = async (req, res, next) => {
   try {
     let allUsers = await userModel.find({}, "-password");

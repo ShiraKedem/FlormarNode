@@ -15,14 +15,17 @@ export const getAllOrders = async (req, res, next) => {
 
 export const addOrder = async (req, res, next) => {
   const { orderDetails, address, isCameOut } = req.body;
-  const result = await orderValidatore(req.body);
- 
-  if (result.error) {
-    return res.status(400).json({
-      type: "invalid data",
-      message: result.error.details[0].message,
-    });
-  }
+
+const result = await orderValidatore(req.body);
+
+if (result.error) {
+  return res.status(400).json({
+    type: "invalid data",
+    message: result.error.details[0].message,
+  });
+}
+
+
   try {
     let newOrder = new orderModel({
       orderDetails,
